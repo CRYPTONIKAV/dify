@@ -191,9 +191,11 @@ def _message() -> Message:
 
 @pytest.fixture
 def generator() -> Iterator[AgentChatAppGenerator]:
+    from services.workflow_run_agg import WorkflowRunAgg
+
     app = Flask(__name__)
     with app.app_context():
-        yield AgentChatAppGenerator()
+        yield AgentChatAppGenerator(execution_driver=WorkflowRunAgg.run)
 
 
 class TestAgentChatAppGeneratorGenerate:
